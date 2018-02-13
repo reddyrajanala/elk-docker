@@ -1,0 +1,28 @@
+output {
+  if [type] == "rompr" {
+    elasticsearch {
+      hosts => "{{ logstash_elasticsearch }}"
+      index => "rompr-%{+YYYY.MM.dd}"
+    }
+  } else if [type] == "netsuite" {
+    elasticsearch {
+      hosts => "{{ logstash_elasticsearch }}"
+      index => "netsuite-%{+YYYY.MM.dd}"
+    }
+  } else if [type] == "syslog" {
+    elasticsearch {
+      hosts => "{{ logstash_elasticsearch }}"
+      index => "syslog-%{+YYYY.MM.dd}"
+    }
+  } else if "metric" in [tags] {
+    elasticsearch {
+      hosts => "{{ logstash_elasticsearch }}"
+      index => "romprmetrics-%{+YYYY.MM.dd}"
+    }
+  } else {
+    elasticsearch {
+      hosts => "{{ logstash_elasticsearch }}"
+      index => "logstash-%{+YYYY.MM.dd}"
+    }
+  }
+}

@@ -1,0 +1,48 @@
+---
+- name: Configure Kibana APT key
+  apt_key:
+    url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+  tags:
+    - kibana
+    - repo
+
+- name: Configure the Kibana APT repositories
+  become: yes
+  apt_repository:
+    repo: "deb https://artifacts.elastic.co/packages/5.x/apt stable main"
+  tags:
+    - kibana
+    - repo
+
+- name: Install Kibana
+  apt: pkg={{ item }} state=present update_cache=yes
+  with_items:
+    - kibana={{ kibana_version }}
+
+- name: Enable on Boot
+  become: yes
+  command: systemctl enable kibana.service
+
+- name: Install Kibana Plugins
+  become: yes
+  command: "{{ kibana_home }}/bin/kibana-plugin install {{ item }}"
+  with_items: "{{ kibana_plugins }}"
+  notify:
+    - Restart Kibana
+
+- name: Configure Kibana
+  template: src=kibana.yml.j2 dest=/etc/kibana/kibana.yml
+  notify:
+    - Restart Kibana
+
+- name: Touch log file if it does not exist
+  command: touch {{ kibana_log }}
+           creates={{ kibana_log }}
+
+- name: Set log file permissions
+  file: path={{ kibana_log }} owner=kibana group=kibana mode=0644
+
+- name: Configure Kibana log rotation
+  template: src=logrotate_kibana.j2 dest=/etc/logrotate.d/kibana
+
+

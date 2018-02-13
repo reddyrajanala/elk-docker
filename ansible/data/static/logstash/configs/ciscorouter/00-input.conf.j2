@@ -1,0 +1,24 @@
+input {
+  tcp {
+    port => 514
+    type => "syslog"
+    tags => [ "syslog" ]
+  }
+  udp {
+    port => 514
+    type => "syslog"
+    tags => [ "syslog" ]
+  }
+  file {
+    path => "/cucm-logs/cdr*"
+    type => "cucm-cdr"
+    start_position => "beginning"
+    add_field => { "cucm_clustername" => "RamblerOn_CUCM" }
+  }
+  file {
+    path => "/cucm-logs/cmr*"
+    type => "cucm-cmr"
+    start_position => "beginning"
+    add_field => { "cucm_clustername" => "RamblerOn_CUCM" }
+  }
+}

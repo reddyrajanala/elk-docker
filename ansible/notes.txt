@@ -1,0 +1,10 @@
+statsd:
+https://github.com/AerisCloud/ansible-statsd/blob/master/tasks/main.yml
+
+statsd->influxdb: https://github.com/mchesler/statsd-influxdb-backend
+
+
+https://docs.influxdata.com/influxdb/v1.1/guides/writing_data/
+
+https://github.com/etsy/statsd
+

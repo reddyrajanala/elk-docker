@@ -1,0 +1,40 @@
+---
+- name: Add APT repository key
+  become: yes
+  apt_key:
+    url: https://packagecloud.io/gpg.key
+  tags:
+    - grafana
+    - repo
+
+- name: Add Grafana official APT repository
+  become: yes
+  apt_repository:
+    repo: "deb https://packagecloud.io/grafana/stable/debian/ jessie main"
+  tags:
+    - grafana
+    - repo
+
+- name: Install Grafana
+  become: yes
+  apt: pkg={{ item }} state=present update_cache=yes cache_valid_time=3600
+  with_items:
+    - grafana={{ grafana_version }}
+  tags:
+    - grafana
+    - repo
+
+- name: Configure Grafana
+  template:
+    src: "{{ grafana_config }}"
+    dest: "{{ grafana_config_root }}/grafana.ini"
+  notify:
+    - Restart Grafana
+
+- name: Install Grafana Plugins
+  become: yes
+  command: "{{ grafana_bin }}/grafana-cli plugins install {{ item }}"
+  with_items: "{{ grafana_plugins }}"
+  notify:
+    - Restart Grafana
+

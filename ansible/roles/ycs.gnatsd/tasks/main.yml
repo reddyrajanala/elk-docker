@@ -1,0 +1,20 @@
+---
+
+- name: Install supervisord
+  apt: name=supervisor update_cache=yes state=present
+
+- name: Stop supervisord instance of gnatsd
+  shell: /usr/bin/supervisorctl stop gnatsd
+
+- name: Download gnatsd binary
+  unarchive: src={{ gnatsd_download_url }} dest={{ gnatsd_install_dir }} copy=no
+
+- name: Copy config file
+  template: src=gnatsd.conf dest={{ gnatsd_conf_file }}
+
+- name: Copy supervisor conf file
+  template: src=gnatsd-supervisor.conf dest=/etc/supervisor/conf.d/gnatsd.conf
+
+- name: Start supervisor instance of gnatsd
+  supervisorctl: name=gnatsd state=restarted
+

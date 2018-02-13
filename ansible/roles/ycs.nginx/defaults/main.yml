@@ -1,0 +1,16 @@
+nginx_version: 2.0
+
+nginx_ssl: false
+nginx_ssl_key: /tmp/key.txt
+nginx_ssl_cert: /tmp/cert.txt
+nginx_plugin_ldap_resolver: 127.0.0.1
+nginx_plugin_ldap_username: Administrator
+nginx_plugin_ldap_password: password
+nginx_plugin_ldap_connectionString: ?foo=bar
+nginx_plugins:
+  - ldap
+  - proxy
+
+nginx_sites:
+  - kibana
+  - octopus

@@ -1,0 +1,8 @@
+- name: Start InfluxDB
+  service: name=influxdb state=restarted
+
+- name: Start Kapacitor
+  service: name=kapacitor state=restarted
+
+- name: Start Chronograf
+  service: name=chronograf state=restarted

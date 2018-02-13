@@ -1,0 +1,51 @@
+---
+- name: Configure Logstash APT key
+  apt_key:
+    url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+  tags:
+    - logstash
+    - repo
+
+- name: Configure the Logstash APT repositories
+  become: yes
+  apt_repository:
+    repo: "deb https://artifacts.elastic.co/packages/5.x/apt stable main"
+  tags:
+    - logstash
+    - repo
+
+- name: Install Logstash
+  apt: pkg={{ item }} state=present update_cache=yes
+  with_items:
+    - logstash={{ logstash_version }}
+
+- name: Enable on Boot
+  become: yes
+  command: systemctl enable logstash.service
+
+- name: Update Java Capabilities
+  become: yes
+  command: "setcap cap_net_bind_service=+epi {{ java_home }}/jre/bin/java"
+
+- name: Install Logstash Plugins
+  become: yes
+  command: "{{ logstash_home }}/bin/logstash-plugin install {{ item }}"
+  with_items: "{{ logstash_plugins }}"
+  notify:
+    - Restart Logstash
+
+- name: Configure Logstash (input pipeline)
+  template: src={{ logstash_template }}/00-input.conf.j2 dest=/etc/logstash/conf.d/00-input.conf
+  notify:
+    - Restart Logstash
+
+- name: Configure Logstash (filter pipeline)
+  template: src={{ logstash_template }}/10-filter.conf.j2 dest=/etc/logstash/conf.d/10-filter.conf
+  notify:
+    - Restart Logstash
+
+- name: Configure Logstash (output pipeline)
+  template: src={{ logstash_template }}/99-output.conf.j2 dest=/etc/logstash/conf.d/99-output.conf
+  notify:
+    - Restart Logstash
+

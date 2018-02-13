@@ -1,0 +1,38 @@
+---
+- name: Configure Curator APT key
+  apt_key:
+    url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+  tags:
+    - curator
+    - repo
+
+- name: Configure the Curator APT repositories
+  become: yes
+  apt_repository:
+    repo: "deb http://packages.elastic.co/curator/5/debian stable main"
+  tags:
+    - curator
+    - repo
+
+- name: Install Curator
+  apt: pkg={{ item }} state=present update_cache=yes
+  with_items:
+    - elasticsearch-curator
+
+- name: Configure Curator
+  template:
+    src: "{{ curator_templates }}/config.yml.j2"
+    dest: "{{ curator_config_root }}/config.yml"
+
+- name: Configure Curator Actions
+  template:
+    src: "{{ curator_templates }}/action.yml.j2"
+    dest: "{{ curator_config_root }}/action.yml"
+
+- name: Install Curator Crontab definition
+  template:
+    src: "{{ curator_templates }}/crontab.j2"
+    dest: "{{ curator_config_root }}/crontab"
+  notify:
+    - Install Curator Crontab
+

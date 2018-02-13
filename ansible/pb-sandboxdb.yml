@@ -1,0 +1,41 @@
+---
+
+- name: PostgreSQL Sandbox
+  hosts: sandboxdb
+  become: yes
+  become_user: root
+  remote_user: ubuntu
+  vars:
+    - sensu_client_subscriptions:
+      - linux
+      - postgres
+    - sensu_plugins:
+      - sensu-plugins-postgres
+    - db_name: rompr
+    - db_password: password
+    - db_user: admin
+    - postgresql_root_password: password
+    - postgresql_is_hotstandby: false
+    - postgresql_archive_mode: false
+    - postgresql_archive_timeout: 60
+    - postgresql_listen_addresses: "*"
+    - postgresql_wal_level: minimal
+    - postgresql_log_line_prefix: '%t [%p]: [%l-1] user=%u,db=%d,app=%a,client=%h '
+    - postgresql_log_min_duration_statement: '500'
+    - postgresql_log_checkpoints: true
+    - postgresql_log_connections: true
+    - postgresql_log_disconnections: true
+    - postgresql_log_lock_waits: true
+    - postgresql_log_temp_files: 0
+    - postgresql_log_autovacuum_min_duration: 0
+    - postgresql_shared_buffers: '3072MB'
+    - postgresql_work_mem: '60MB'
+    - postgresql_maintenance_work_mem: '200MB'
+    - update_apt_cache: yes
+
+  vars_files:
+    - env_vars/base.yml
+
+  roles:
+    - { role: "ycs.base" }
+    - { role: "postgresql" }

@@ -1,0 +1,3 @@
+FROM library/influxdb:1.4.2
+ENTRYPOINT ["influxd"]
+EXPOSE 8086

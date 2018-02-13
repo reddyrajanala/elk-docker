@@ -1,0 +1,5 @@
+---
+
+- name: Start supervisor instance of gnatsd
+  supervisorctl: name=gnatsd state=restarted
+

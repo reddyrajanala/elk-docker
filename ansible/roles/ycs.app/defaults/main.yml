@@ -1,0 +1,9 @@
+---
+app_destination: /srv/helloworld
+app_repo_root: "https://{{ GITHUB_TOKEN }}@github.com/"
+app_github_repo: rambleron/null.git
+app_repo: "{{ app_repo_root }}{{ app_github_repo }}"
+app_branch: master
+app_port: 3000
+app_style: nodejs
+

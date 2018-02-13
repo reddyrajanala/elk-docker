@@ -1,0 +1,6 @@
+---
+grafana_version: "4.1.2-1486989747"
+grafana_bin: /usr/sbin
+grafana_plugins: []
+grafana_config: grafana.ini.j2
+grafana_config_root: /etc/grafana

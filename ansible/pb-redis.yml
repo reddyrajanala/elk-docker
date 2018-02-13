@@ -1,0 +1,20 @@
+---
+
+- name: Redis
+  hosts: redis
+  become: yes
+  become_user: root
+  remote_user: ubuntu
+  vars:
+    - sensu_client_subscriptions:
+      - linux
+      - redis
+    - sensu_plugins:
+      - sensu-plugins-redis
+    - update_apt_cache: yes
+  vars_files:
+    - env_vars/base.yml
+
+  roles:
+    - { role: "ycs.base" }
+    - { role: "ycs.redis", redis_bind_address: "0.0.0.0", redis_version: "2:3.0.6-1" }

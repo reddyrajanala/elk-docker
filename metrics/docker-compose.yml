@@ -1,0 +1,34 @@
+version: '2'
+services:
+  prometheus:
+    restart: always
+    build: ./prometheus
+    ports:
+      - "9090:9090"
+
+  influx:
+    restart: always
+    image: influxdb:1.4.2
+    environment:
+      - INFLUXDB_DB=prometheus
+    ports: 
+      - "8083:8083"
+      - "8086:8086"
+
+  influxdbexporter:
+    restart: always
+    build: ./influxdb-exporter
+    ports:
+      - "9201:9201"
+    depends_on: 
+      - prometheus
+      - influx
+
+  grafana:
+    restart: always
+    build: ./grafana
+    ports:
+      - "3000:3000"
+    depends_on: 
+      - prometheus
+      - influx

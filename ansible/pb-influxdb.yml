@@ -1,0 +1,22 @@
+---
+
+- name: InfluxDB
+  hosts: influxdb
+  become: yes
+  become_user: root
+  remote_user: ubuntu
+  vars:
+    - sensu_client_subscriptions:
+      - linux
+      - influxdb
+    - sensu_plugins:
+      - sensu-plugins-influxdb
+    - update_apt_cache: yes
+    - influxdb_collectd_enabled: "true"
+    - sysctl_increase_udp_read_buffer: true
+  vars_files:
+    - env_vars/base.yml
+
+  roles:
+    - { role: "ycs.base" }
+    - { role: "ycs.influxdb" }

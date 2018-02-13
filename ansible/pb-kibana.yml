@@ -1,0 +1,23 @@
+---
+
+- name: Kibana
+  hosts: kibana
+  become: yes
+  become_user: root
+  remote_user: ubuntu
+  vars:
+    - sensu_client_subscriptions:
+      - linux
+    - update_apt_cache: yes
+    - kibana_elasticsearch: "http://es-1.corp.rambleron.com:9200"
+    - kibana_version: "5.1.2"
+    - kibana_plugins:
+      - x-pack
+
+  vars_files:
+    - env_vars/base.yml
+
+  roles:
+    - { role: "ycs.base" }
+    - { role: "ycs.kibana" }
+

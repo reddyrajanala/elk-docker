@@ -1,0 +1,5 @@
+---
+curator_config_root: /etc/curator
+curator_elasticsearch: "localhost:9200"
+curator_expire_interval: 30
+curator_templates: "{{ static_data_store }}/curator"

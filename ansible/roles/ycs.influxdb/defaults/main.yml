@@ -1,0 +1,3 @@
+influxdb_root: /var/lib/influxdb
+influxdb_collectd_enabled: "false"
+influxdb_udp_enabled: "false"

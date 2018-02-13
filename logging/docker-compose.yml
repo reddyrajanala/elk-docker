@@ -1,0 +1,43 @@
+version: '2'
+services:
+  elasticsearch:
+    restart: always
+    build: ./elasticsearch
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+      xpack.security.enabled: "false"
+      xpack.monitoring.enabled: "false"
+      xpack.graph.enabled: "false"
+      xpack.watcher.enabled: "false"
+    networks:
+      - elk
+
+  logstash:
+    restart: always
+    build: ./logstash
+    ports:
+      - "5000:5000/udp"
+      - "5001:5001/udp"
+      - "5002:5002/udp"
+      - "5003:5003/udp"
+    depends_on:
+      - elasticsearch
+    networks: 
+      - elk
+
+  kibana:
+    restart: always
+    build: ./kibana
+    ports:
+      - "5601:5601"
+    networks: 
+      - elk
+    depends_on: 
+      - elasticsearch
+  
+networks:
+  elk:
+    driver: bridge

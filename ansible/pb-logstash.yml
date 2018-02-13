@@ -1,0 +1,39 @@
+---
+
+- name: Logstash Backend
+  hosts: logstash_backend
+  become: yes
+  become_user: root
+  remote_user: ubuntu
+  vars:
+    - sensu_client_subscriptions:
+      - linux
+    - update_apt_cache: yes
+    - logstash_template: backend
+    - logstash_redis: redis-1.corp.rambleron.com
+    - logstash_elasticsearch: es-1.corp.rambleron.com:9200
+  vars_files:
+    - env_vars/base.yml
+
+  roles:
+    - { role: "ycs.base" }
+    - { role: "ycs.logstash" }
+
+- name: Logstash Frontend
+  hosts: logstash_frontend
+  become: yes
+  become_user: root
+  remote_user: ubuntu
+  vars:
+    - sensu_client_subscriptions:
+      - linux
+    - update_apt_cache: yes
+    - logstash_template: frontend
+    - logstash_redis: redis-1.corp.rambleron.com
+    - logstash_elasticsearch: es-1.corp.rambleron.com:9200
+  vars_files:
+    - env_vars/base.yml
+
+  roles:
+    - { role: "ycs.base" }
+    - { role: "ycs.logstash" }

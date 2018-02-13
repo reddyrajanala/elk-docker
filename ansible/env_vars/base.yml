@@ -1,0 +1,15 @@
+redis_host: redis-1.corp.rambleron.com
+AWS_SECRET_ACCESS_KEY: YrsjJGSMG7BVAwxmvMl/FfW/dgIMCtA/tObqHzqQ
+AWS_ACCESS_KEY_ID: AKIAJFAXP5QHMXYCKNFQ
+AWS_REGION: us-west-2
+GITHUB_TOKEN: 1729aab337ace64abbb61355689a23e12b175449
+WAL_E_S3_PREFIX: s3://rompr-database/production-wal
+collectd_publish_server: influxdb-1.corp.rambleron.com
+collectd_publish_port: 25826
+ansible_ssh_private_key_file: ./keys/rambler-on-devops.pem
+static_data_store: ./data/static
+sensu_redis_host: sensu.corp.rambleron.com
+sensu_redis_port: 6379
+sensu_default_client_subscriptions:
+  - linux
+

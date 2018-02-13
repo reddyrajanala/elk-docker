@@ -1,0 +1,6 @@
+filter {
+  metrics {
+    meter => [ "nats_%{nats_type}" ]
+    add_tag => "metric"
+  }
+}

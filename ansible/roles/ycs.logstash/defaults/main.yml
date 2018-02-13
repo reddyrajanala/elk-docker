@@ -1,0 +1,8 @@
+---
+logstash_home: /usr/share/logstash
+logstash_version: "1:5.1.2-1"
+logstash_template: "generic"
+logstash_redis: "127.0.0.1"
+logstash_elasticsearch: "127.0.0.1:9200"
+logstash_plugins: []
+java_home: /usr/lib/jvm/java-8-openjdk-amd64

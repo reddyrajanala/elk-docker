@@ -1,0 +1,28 @@
+---
+actions:
+  1:
+    action: delete_indicies
+    description: Purge older indicies
+    options:
+      ignore_empty_list: True
+      timeout_override:
+      continue_if_exception: False
+      disable_action: True
+    filters:
+      - filtertype: pattern
+        kind: prefix
+        value:
+          - rompr-
+          - netsuite-
+          - syslog-
+          - romprmetrics-
+          - logstash-
+        exclude:
+      - filtertype: age
+        source: name
+        direction: older
+        timestring: '%Y.%m.%d'
+        unit: days
+        unit_count: {{ curator_expire_interval }}
+        exclude:
+

@@ -1,0 +1,22 @@
+---
+
+- name: Overlord
+  hosts: overlord
+  become: yes
+  become_user: root
+  remote_user: ubuntu
+  vars:
+    - app_repo: "https://{{ GITHUB_TOKEN }}@github.com/rambleron/null.git"
+    - update_apt_cache: yes
+    - sysctl_increase_udp_read_buffer: true
+    - sensu_client_subscriptions:
+      - linux
+
+  vars_files:
+    - env_vars/base.yml
+
+  roles:
+    - { role: "ycs.base" }
+    - { role: "ycs.app", app_branch: master, app_destination: /srv/hello1 }
+    - { role: "ycs.app", app_branch: master, app_destination: /srv/hello2 }
+

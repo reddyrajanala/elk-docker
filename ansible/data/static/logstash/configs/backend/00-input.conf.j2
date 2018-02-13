@@ -1,0 +1,26 @@
+input {
+  redis {
+    host => "{{ logstash_redis }}"
+    type => "redis-input"
+    data_type => "list"
+    key => "logstash"
+  }
+  redis {
+    host => "{{ logstash_redis }}"
+    type => "redis-input"
+    data_type => "list"
+    key => "syslog"
+  }
+  redis {
+    host => "{{ logstash_redis }}"
+    type => "redis-input"
+    data_type => "list"
+    key => "romprlogs"
+  }
+  redis {
+    host => "{{ logstash_redis }}"
+    type => "redis-input"
+    data_type => "list"
+    key => "netsuite"
+  }
+}

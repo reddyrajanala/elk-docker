@@ -1,0 +1,15 @@
+{
+  "client": {
+    "name": "{{ sensu_client_name }}",
+    "address": "{{ ansible_default_ipv4['address'] }}",
+    "subscriptions": {{ sensu_client_subscriptions | to_nice_json }}
+  },
+  "transport": {
+    "name": "redis",
+    "reconnect_on_error": true
+  },
+  "redis": {
+    "host": "{{ sensu_redis_host }}",
+    "port": {{ sensu_redis_port }}
+  }
+}

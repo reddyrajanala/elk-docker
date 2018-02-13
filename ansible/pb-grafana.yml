@@ -1,0 +1,27 @@
+---
+
+- name: Grafana
+  hosts: grafana
+  become: yes
+  become_user: root
+  remote_user: ubuntu
+  vars:
+    - sensu_client_subscriptions:
+      - linux
+    - update_apt_cache: yes
+    - grafana_config: "{{ static_data_store }}/grafana/templates/grafana.ini.j2"
+    - grafana_version: "4.1.2-1486989747"
+    - grafana_plugins:
+      - grafana-piechart-panel
+      - briangann-gauge-panel
+      - jdbranham-diagram-panel
+      - natel-discrete-panel
+      - mtanda-histogram-panel
+
+  vars_files:
+    - env_vars/base.yml
+
+  roles:
+    - { role: "ycs.base" }
+    - { role: "ycs.grafana" }
+

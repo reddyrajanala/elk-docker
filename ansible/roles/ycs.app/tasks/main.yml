@@ -1,0 +1,20 @@
+---
+- name: Create App Directory
+  file:
+    path: "{{ app_destination }}"
+    mode: 0755
+    owner: ubuntu
+    group: ubuntu
+    recurse: yes
+    state: directory
+
+- name: Clone/Update workspace
+  become: yes
+  become_user: ubuntu
+  git:
+    repo: "{{ app_repo }}"
+    dest: "{{ app_destination }}"
+    force: yes
+    version: "{{ app_branch }}"
+    depth: 1
+

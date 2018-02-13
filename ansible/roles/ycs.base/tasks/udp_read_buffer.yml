@@ -1,0 +1,21 @@
+---
+
+- name: Configure UDP rmem_max
+  lineinfile: dest=/etc/sysctl.conf
+              regexp='^net.core.rmem_max'
+              line='net.core.rmem_max=26214400'
+              state=present
+              create=True
+
+- name: Set UDP rmem_max
+  command: sysctl -w net.core.rmem_max=26214400
+
+- name: Configure UDP rmem_default
+  lineinfile: dest=/etc/sysctl.conf
+              regexp='^net.core.rmem_default'
+              line='net.core.rmem_default=26214400'
+              state=present
+              create=True
+
+- name: Set UDP rmem_default
+  command: sysctl -w net.core.rmem_default=26214400

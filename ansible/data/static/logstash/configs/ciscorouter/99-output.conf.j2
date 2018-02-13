@@ -1,0 +1,32 @@
+output {
+  if [type] == "syslog" and "cisco" not in [tags] {
+    if "cisco" in [tags] {
+      redis {
+        host => "{{ logstash_redis }}"
+        data_type => "list"
+        key => "router"
+      }
+    } else {
+      redis {
+        host => "{{ logstash_redis }}"
+        data_type => "list"
+        key => "syslog"
+      }
+    }
+  }
+  if [type] == "cucm-cdr" {
+    redis {
+      host => "{{ logstash_redis }}"
+      data_type => "list"
+      key => "cucm"
+    }
+  }
+  if [type] == "cucm-cmr" {
+    redis {
+      host => "{{ logstash_redis }}"
+      data_type => "list"
+      key => "cucm"
+    }
+  }
+}
+

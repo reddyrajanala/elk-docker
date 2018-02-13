@@ -1,0 +1,20 @@
+---
+
+- name: Nginx proxy
+  hosts: nginxproxy
+  become: yes
+  become_user: root
+  remote_user: ubuntu
+  vars:
+    - sensu_client_subscriptions:
+      - linux
+      - nginx
+    - sensu_plugins:
+      - sensu-plugins-nginx
+    - update_apt_cache: yes
+
+  vars_files:
+    - env_vars/base.yml
+
+  roles:
+    - { role: "ycs.base" }

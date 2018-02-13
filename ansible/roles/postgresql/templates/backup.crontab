@@ -1,0 +1,2 @@
+# Periodically refresh backup in S3
+3 0 * * * {{postgresql_backup_command}}

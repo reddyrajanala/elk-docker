@@ -1,0 +1,44 @@
+---
+
+- include: create_swap_file.yml
+  when: create_swap_file
+  tags: swap
+
+- name: Ensure bash, OpenSSL and libssl are the latest versions
+  apt: name={{ item }} autoremove=yes update_cache={{ update_apt_cache }} state=latest
+  with_items:
+    - bash
+    - openssl
+    - libssl-dev
+    - libssl-doc
+  tags: packages
+
+- name: Install base packages
+  apt: name={{ item }} autoremove=yes update_cache={{ update_apt_cache }} force=yes state=installed
+  with_items:
+    - build-essential
+    - open-vm-tools
+    - acl
+    - ntp
+    - htop
+    - git
+    - libpq-dev
+    - python-dev
+    - python-pip
+    - python-pycurl
+    - lzop
+    - pv
+    - daemontools
+    - supervisor
+  tags: packages
+
+- name: Autoremove unused dependencies
+  apt: autoremove=yes update_cache={{ update_apt_cache }}
+
+- name: Upgrade PIP
+  pip: name=pip state=latest
+  tags: packages
+
+- include: udp_read_buffer.yml
+  when: sysctl_increase_udp_read_buffer
+

@@ -1,0 +1,31 @@
+input {
+  tcp {
+    port => 514
+    type => syslog
+    tags => [ "syslog" ]
+  }
+  udp {
+    port => 514
+    type => syslog
+    tags => [ "syslog" ]
+  }
+  tcp {
+    port => 5000
+    codec => json
+  }
+  udp {
+    port => 5000
+    type => rompr
+    codec => json
+  }
+  tcp {
+    port => 5001
+    codec => json
+    type => netsuite
+  }
+  udp {
+    port => 5001
+    codec => json
+    type => netsuite
+  }
+}

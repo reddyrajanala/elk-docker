@@ -1,0 +1,29 @@
+---
+sensu_api_host: sensu.corp.rambleron.com
+sensu_api_port: 4567
+sensu_api_ssl: "false"
+sensu_config_path: /etc/sensu
+sensu_path: /opt/sensu
+sensu_user_name: sensu
+sensu_group_name: sensu
+sensu_client_config: config.json.j2
+sensu_client_name: "{{ ansible_hostname }}"
+sensu_client_subscriptions: []
+
+sensu_plugins: []
+
+sensu_plugins_gems: []
+
+sensu_remote_plugins_gems:
+  - vmstat
+
+sensu_remote_plugins:
+  - sensu-plugins-disk-checks
+  - sensu-plugins-memory-checks
+  - sensu-plugins-load-checks
+  - sensu-plugins-filesystem-checks
+  - sensu-plugins-cpu-checks
+  - sensu-plugins-process-checks
+  - sensu-plugins-network-checks
+  - sensu-plugins-uptime-checks
+  - sensu-plugins-vmstats

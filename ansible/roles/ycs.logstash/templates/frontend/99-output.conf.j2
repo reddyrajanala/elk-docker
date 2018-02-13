@@ -1,0 +1,48 @@
+output {
+  if [type] == "rompr" {
+    redis {
+      host => "{{ logstash_redis }}"
+      data_type => "list"
+      key => "romprlogs"
+    }
+    redis {
+      host => "logstash-redis.corp.rambleron.com"
+      data_type => "list"
+      key => "romprlogs"
+    }
+  } else if [type] == "netsuite" {
+    redis {
+      host => "{{ logstash_redis }}"
+      data_type => "list"
+      key => "netsuite"
+    }
+    redis {
+      host => "logstash-redis.corp.rambleron.com"
+      data_type => "list"
+      key => "netsuite"
+    }
+  } else if [type] == "syslog" {
+    redis {
+      host => "{{ logstash_redis }}"
+      data_type => "list"
+      key => "syslog"
+    }
+    redis {
+      host => "logstash-redis.corp.rambleron.com"
+      data_type => "list"
+      key => "syslog"
+    }
+  } else {
+    redis {
+      host => "{{ logstash_redis }}"
+      data_type => "list"
+      key => "logstash"
+    }
+    redis {
+      host => "logstash-redis.corp.rambleron.com"
+      data_type => "list"
+      key => "logstash"
+    }
+  }
+}
+

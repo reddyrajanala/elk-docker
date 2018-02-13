@@ -1,0 +1,10 @@
+FROM golang:1.8
+RUN mkdir /go/src/github.com
+RUN mkdir /go/src/github.com/prometheus
+ADD https://github.com/prometheus/prometheus/archive/v2.0.0.tar.gz /go/src/github.com/prometheus/
+RUN tar -xvf /go/src/github.com/prometheus/v2.0.0.tar.gz -C /go/src/github.com/prometheus/
+RUN mv /go/src/github.com/prometheus/prometheus-2.0.0/ /go/src/github.com/prometheus/prometheus/
+WORKDIR /go/src/github.com/prometheus/prometheus/documentation/examples/remote_storage/remote_storage_adapter
+RUN go build
+ENTRYPOINT ["/go/src/github.com/prometheus/prometheus/documentation/examples/remote_storage/remote_storage_adapter/remote_storage_adapter","-influxdb-url=http://influx:8086/","-influxdb.database=prometheus","-influxdb.retention-policy=autogen"]
+EXPOSE 9201

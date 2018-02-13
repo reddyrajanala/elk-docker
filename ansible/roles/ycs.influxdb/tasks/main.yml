@@ -1,0 +1,23 @@
+---
+
+- name: Import InfluxData GPG signing key
+  apt_key: url=https://repos.influxdata.com/influxdb.key state=present
+
+- name: Add InfluxData repository
+  apt_repository: repo='deb https://repos.influxdata.com/ubuntu xenial stable' state=present
+
+- name: Install InfluxDB
+  apt: name=influxdb state=present
+
+- name: Install Kapacitor
+  apt: name=kapacitor state=present
+
+- name: Install chronograf
+  apt: name=chronograf state=present
+
+- name: Modify InfluxDB Configuration
+  template: src=influxdb.conf.j2 dest=/etc/influxdb/influxdb.conf
+
+- name: Modify Kapacitor Configuration
+  template: src=kapacitor.conf.j2 dest=/etc/kapacitor/kapacitor.conf
+
